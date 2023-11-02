@@ -1,7 +1,9 @@
 package ua.grainmole.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -19,17 +21,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "customer")
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+  @Column(name = "first_name")
   private String firstname;
+  @Column(name = "second_name")
   private String lastname;
   private String email;
   private String password;
-
+  private boolean verified_email = false;
 
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
