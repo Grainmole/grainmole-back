@@ -22,7 +22,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Builder
 @Table(name = "ground_section")
 @AllArgsConstructor
 @NoArgsConstructor
