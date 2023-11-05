@@ -1,8 +1,8 @@
 package ua.grainmole.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ua.grainmole.exceptions.CurrentAuditException;
 import ua.grainmole.models.User;
 import ua.grainmole.repositories.UserRepository;
 import ua.grainmole.responses.UserInfo;
@@ -25,7 +25,7 @@ public class UserService {
                     .email(currentUser.getEmail())
                     .build();
         } else {
-            throw new UsernameNotFoundException("Does not found authenticated user by this email.");
+            throw new CurrentAuditException("Does not found authenticated user");
         }
     }
 }
