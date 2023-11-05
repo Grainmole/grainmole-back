@@ -7,8 +7,6 @@ import ua.grainmole.models.GroundSection;
 
 import java.util.List;
 
-@Getter
-@Setter
 @Builder
 public record GroundSectionsResponse(List<GroundSection> groundSections) {
 }
