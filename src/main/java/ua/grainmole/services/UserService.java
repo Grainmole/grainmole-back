@@ -1,7 +1,6 @@
 package ua.grainmole.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ua.grainmole.exceptions.CurrentAuditException;
 import ua.grainmole.models.User;
@@ -28,9 +27,5 @@ public class UserService {
         } else {
             throw new CurrentAuditException("Does not found authenticated user");
         }
-    }
-
-    public User getUserById(Integer id) {
-        return userRepository.getReferenceById(id);
     }
 }

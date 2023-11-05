@@ -2,12 +2,14 @@ package ua.grainmole.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ua.grainmole.dto.GroundSectionDto;
 import ua.grainmole.exceptions.CurrentAuditException;
 import ua.grainmole.models.GroundSection;
 import ua.grainmole.models.User;
 import ua.grainmole.repositories.GroundSectionRepository;
+import ua.grainmole.repositories.UserRepository;
 import ua.grainmole.requests.CreateGroundSection;
-import ua.grainmole.responses.GroundSectionsResponse;
+import ua.grainmole.responses.GroundSectionsListResponse;
 
 import java.util.Optional;
 
@@ -17,32 +19,31 @@ public class GroundSectionService {
 
     private final GroundSectionRepository groundSectionRepository;
     private final ApplicationAuditAware auditAware;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public GroundSection createGroundSection
+    public GroundSectionDto createGroundSection
             (CreateGroundSection createGroundSection) {
         Optional<Integer> userId = auditAware.getCurrentAuditor();
         if (userId.isPresent()) {
-            User currentUser = userService.getUserById(userId.get());
-            return groundSectionRepository.save(GroundSection.builder()
-                    .id(createGroundSection.gatewayId())
-                    .user(currentUser)
-                    .build());
+            User currentUser = userRepository.getReferenceById(userId.get());
+            groundSectionRepository.save(new GroundSection(createGroundSection.gatewayId(), currentUser));
+            return new GroundSectionDto(createGroundSection.gatewayId(), currentUser.getId());
         } else {
             throw new CurrentAuditException("Does not found authenticated user.");
         }
     }
 
-    public GroundSectionsResponse getAllGroundSectionForUser() {
+    public GroundSectionsListResponse getAllGroundSectionForUser() {
         Optional<Integer> userId = auditAware.getCurrentAuditor();
         if (userId.isPresent()) {
-            User currentUser = userService.getUserById(userId.get());
-            return GroundSectionsResponse
+            User currentUser = userRepository.getReferenceById(userId.get());
+            return GroundSectionsListResponse
                     .builder()
-                    .groundSections(
-                            groundSectionRepository
-                                    .getGroundSectionByUser(currentUser)
-                    )
+                    .groundSections(groundSectionRepository
+                            .getGroundSectionByUser(currentUser)
+                            .stream().map(groundSection -> new GroundSectionDto(
+                                    groundSection.getId(), currentUser.getId()
+                            )).toList())
                     .build();
         } else {
             throw new CurrentAuditException("Does not found authenticated user.");

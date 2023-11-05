@@ -1,12 +1,10 @@
 package ua.grainmole.responses;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import ua.grainmole.models.GroundSection;
+import ua.grainmole.dto.GroundSectionDto;
 
 import java.util.List;
 
 @Builder
-public record GroundSectionsResponse(List<GroundSection> groundSections) {
+public record GroundSectionsListResponse(List<GroundSectionDto> groundSections) {
 }
