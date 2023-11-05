@@ -1,11 +1,11 @@
 package ua.grainmole.services;
 
-import org.springframework.stereotype.Component;
-import ua.grainmole.models.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import ua.grainmole.models.User;
 
 import java.util.Optional;
 
@@ -18,7 +18,7 @@ public class ApplicationAuditAware implements AuditorAware<Integer> {
                         .getContext()
                         .getAuthentication();
         if (authentication == null ||
-            !authentication.isAuthenticated() ||
+                !authentication.isAuthenticated() ||
                 authentication instanceof AnonymousAuthenticationToken
         ) {
             return Optional.empty();
