@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @StandardException
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class CurrentAuditException extends RuntimeException {
+@ResponseStatus(code = HttpStatus.FORBIDDEN)
+public class NotHaveSuchRightsException extends RuntimeException{
 }

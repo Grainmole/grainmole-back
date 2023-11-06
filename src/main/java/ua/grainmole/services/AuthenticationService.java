@@ -10,7 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.grainmole.models.Token;
-import ua.grainmole.models.TokenType;
+import ua.grainmole.enums.TokenType;
 import ua.grainmole.models.User;
 import ua.grainmole.repositories.TokenRepository;
 import ua.grainmole.repositories.UserRepository;

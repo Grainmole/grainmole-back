@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.grainmole.dto.GroundSectionDto;
-import ua.grainmole.requests.CreateGroundSection;
+import ua.grainmole.requests.GroundSectionRequest;
 import ua.grainmole.responses.GroundSectionsListResponse;
 import ua.grainmole.services.GroundSectionService;
 
@@ -21,7 +21,7 @@ public class GroundSectionController {
 
     @PostMapping
     public ResponseEntity<GroundSectionDto> createGroundSection(
-            @RequestBody CreateGroundSection createGroundSection) {
+            @RequestBody GroundSectionRequest createGroundSection) {
         return ResponseEntity.ok(groundSectionService.createGroundSection(createGroundSection));
     }
 

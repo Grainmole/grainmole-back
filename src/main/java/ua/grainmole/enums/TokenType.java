@@ -1,4 +1,4 @@
-package ua.grainmole.models;
+package ua.grainmole.enums;
 
 public enum TokenType {
     BEARER
