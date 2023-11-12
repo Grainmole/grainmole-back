@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/grainmole
-    username: root
-    password: mysql
+    url: jdbc:mysql://database-grainmole.ce7cqjmhc2sv.us-east-1.rds.amazonaws.com:3306/grainmole
+    username: admin
+    password: shrekonaws1488
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: false
