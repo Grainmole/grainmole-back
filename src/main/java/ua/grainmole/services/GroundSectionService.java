@@ -8,7 +8,8 @@ import ua.grainmole.models.GroundSection;
 import ua.grainmole.models.User;
 import ua.grainmole.repositories.GroundSectionRepository;
 import ua.grainmole.requests.GroundSectionRequest;
-import ua.grainmole.responses.GroundSectionsListResponse;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +27,10 @@ public class GroundSectionService {
         return dtoMapper.mapToDto(groundSection);
     }
 
-    public GroundSectionsListResponse getAllGroundSectionForUser() {
+    public List<GroundSectionDto> getAllGroundSectionForUser() {
         User currentUser = auditAware.returnCurrentAuthenticatedUser();
-        return GroundSectionsListResponse
-                .builder()
-                .groundSections(groundSectionRepository
-                        .getGroundSectionByUser(currentUser)
-                        .stream().map(dtoMapper::mapToDto).toList())
-                .build();
+        return groundSectionRepository
+                .getGroundSectionByUser(currentUser)
+                .stream().map(dtoMapper::mapToDto).toList();
     }
 }
