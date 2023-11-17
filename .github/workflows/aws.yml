@@ -10,7 +10,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: grainmole
   ECS_SERVICE: service-graimole
-  ECS_CLUSTER: grainmole-cluster
+  ECS_CLUSTER: grainmole-task
   CONTAINER_NAME: backend
 
 jobs:
@@ -55,8 +55,9 @@ jobs:
 
       - name: Download task def
         run: |
-          echo "Task Definition Name: ${{ env.ECS_CLUSTER}}-${{ matrix.image }}"
-          aws ecs describe-task-definition --task-definition ${{ env.ECS_CLUSTER}}-${{ matrix.image }} --query taskDefinition > task-definition.json
+          echo "Task Definition Name: grainmole-task"
+          aws ecs describe-task-definition --task-definition grainmole-task --query taskDefinition > task-definition.json
+
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
