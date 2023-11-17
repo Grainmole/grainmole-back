@@ -10,7 +10,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: grainmole
   ECS_SERVICE: service-graimole
-  ECS_CLUSTER: grainmole-task
+  ECS_CLUSTER: grainmole-cluster
   CONTAINER_NAME: backend
 
 jobs:
