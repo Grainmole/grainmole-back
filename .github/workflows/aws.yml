@@ -9,7 +9,7 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: grainmole
-  ECS_SERVICE: service-graimole-v4
+  ECS_SERVICE: service-graimole-v5
   ECS_CLUSTER: grainmole-cluster
   CONTAINER_NAME: backend
 
