@@ -26,7 +26,7 @@ public class ApplicationExceptionHandler {
                 .build(), HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value = PermissionDeniedException.class)
+    @ExceptionHandler(value = PermissionDeniedException.class)
     public ResponseEntity<ExceptionResponse> permissionDeniedExceptionHandler(
             PermissionDeniedException e,
             HttpServletRequest request
