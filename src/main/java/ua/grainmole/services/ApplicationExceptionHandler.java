@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.grainmole.exceptions.CurrentAuditException;
 import ua.grainmole.exceptions.PermissionDeniedException;
 import ua.grainmole.responses.ExceptionResponse;
@@ -11,9 +12,9 @@ import ua.grainmole.responses.ExceptionResponse;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class ExceptionHandler {
+public class ApplicationExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value = CurrentAuditException.class)
+    @ExceptionHandler(value = CurrentAuditException.class)
     public ResponseEntity<ExceptionResponse> currentAuditExceptionHandler(
             CurrentAuditException e,
             HttpServletRequest request) {
