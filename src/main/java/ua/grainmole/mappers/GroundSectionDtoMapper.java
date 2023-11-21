@@ -7,7 +7,7 @@ import ua.grainmole.models.GroundSection;
 @Service
 public class GroundSectionDtoMapper implements BasicEntityMapper<GroundSection, GroundSectionDto> {
     @Override
-    public GroundSectionDto mapToDto(GroundSection groundSection) {
+    public GroundSectionDto mapEntityToDto(GroundSection groundSection) {
         return GroundSectionDto.builder()
                 .groundSectionId(groundSection.getId())
                 .userId(groundSection.getUser().getId())

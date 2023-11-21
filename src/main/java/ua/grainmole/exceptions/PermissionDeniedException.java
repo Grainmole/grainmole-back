@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @StandardException
 @ResponseStatus(code = HttpStatus.FORBIDDEN)
-public class NotHaveSuchRightsException extends RuntimeException{
+public class PermissionDeniedException extends RuntimeException {
 }
