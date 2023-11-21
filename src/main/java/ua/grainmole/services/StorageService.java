@@ -3,12 +3,14 @@ package ua.grainmole.services;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ua.grainmole.dto.GrainSectionDto;
 import ua.grainmole.dto.StorageDto;
-import ua.grainmole.exceptions.NotHaveSuchRightsException;
+import ua.grainmole.exceptions.PermissionDeniedException;
 import ua.grainmole.mappers.StorageDtoMapper;
 import ua.grainmole.models.SeedType;
 import ua.grainmole.models.Storage;
 import ua.grainmole.models.User;
+import ua.grainmole.repositories.GrainSectionRepository;
 import ua.grainmole.repositories.StorageRepository;
 import ua.grainmole.requests.StorageRequest;
 
@@ -23,6 +25,7 @@ public class StorageService {
     private final ApplicationAuditAware auditAware;
     private final SeedTypeService seedTypeService;
     private final StorageDtoMapper dtoMapper;
+    private final GrainSectionRepository grainSectionRepository;
 
     public StorageDto createStorage(StorageRequest storageRequest) {
         User user = auditAware.returnCurrentAuthenticatedUser();
@@ -32,7 +35,7 @@ public class StorageService {
                 , storageRequest.name(),
                 user,
                 seedType));
-        return dtoMapper.mapToDto(currentStorage);
+        return dtoMapper.mapEntityToDto(currentStorage);
     }
 
     public StorageDto updateStorage(Integer storageId, StorageRequest storageRequest) {
@@ -45,9 +48,9 @@ public class StorageService {
                         storageRequest.name(),
                         user,
                         seedType));
-                return dtoMapper.mapToDto(currentStorage);
+                return dtoMapper.mapEntityToDto(currentStorage);
             } else {
-                throw new NotHaveSuchRightsException(
+                throw new PermissionDeniedException(
                         "You do not have permission to update other user's storages");
             }
         } else {
@@ -59,13 +62,28 @@ public class StorageService {
         User user = auditAware.returnCurrentAuthenticatedUser();
         return storageRepository.findAllByUser(user)
                 .stream()
-                .map(dtoMapper::mapToDto)
+                .map(dtoMapper::mapEntityToDto)
                 .toList();
     }
 
-    private boolean checkIfUserHasThatStorage(Integer storageId, User user) {
-        return storageRepository.findAllByUser(user).stream()
-                .filter(s -> s.getId().equals(storageId)).toList().size() == 1;
+    public List<GrainSectionDto> getAllGrainSectionForCertainStorage(Integer storageId) {
+        User user = auditAware.returnCurrentAuthenticatedUser();
+        Storage storage = storageRepository.getReferenceById(storageId);
+        if (!checkIfUserHasThatStorage(storageId, user)) {
+            throw new PermissionDeniedException("You do not have permission to this storages");
+        }
+        return grainSectionRepository.getGrainSectionsByStorage(storage)
+                .stream()
+                .map(g -> GrainSectionDto.builder()
+                        .id(g.getId())
+                        .batteryLevel(g.getBatteryLevel())
+                        .airHumidity(g.getAirHumidity())
+                        .airTemperature(g.getAirTemperature())
+                        .storageId(g.getStorage().getId()).build()).toList();
+    }
+
+    public boolean checkIfUserHasThatStorage(Integer storageId, User user) {
+        return storageRepository.getReferenceById(storageId).getUser().equals(user);
     }
 
     private boolean doesStorageExistById(Integer storageId) {
