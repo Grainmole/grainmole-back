@@ -13,10 +13,10 @@ import ua.grainmole.repositories.TermoSectionRepository;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,26 +34,27 @@ public class TermoSectionService {
         if (!grainSection.getStorage().getUser().equals(currentUser)) {
             throw new PermissionDeniedException("Current user have not permission to this grain section");
         }
-        List<List<TermoSectionDto>> listsOfTermosections = new LinkedList<>();
+
+        Map<Integer, List<TermoSectionDto>> heightLevelToTermoSections = new HashMap<>();
         List<TermoSection> termoSections =
                 termoSectionRepository
                         .getTermoSectionByTimestampAAndGrainSection(timestamp, grainSection);
-        Set<Integer> heightLevels = new HashSet<>();
-        for (TermoSection level : termoSections) {
-            heightLevels.add(level.getHeightLevel());
-        }
-        for (Integer heightLevel : heightLevels) {
-            listsOfTermosections.add(new LinkedList<>());
-        }
-        for (List<TermoSectionDto> sectionsList : listsOfTermosections) {
-            for (Integer heightLevel : heightLevels) {
-                for (TermoSection section : termoSections) {
-                    if (section.getHeightLevel().equals(heightLevel)) {
-                        sectionsList.add(termoSectionDtoMapper.mapEntityToDto(section));
-                    }
-                }
+
+        for (TermoSection section : termoSections) {
+            int heightLevel = section.getHeightLevel();
+            if (!heightLevelToTermoSections.containsKey(heightLevel)) {
+                heightLevelToTermoSections.put(heightLevel, new LinkedList<>());
             }
+
+            heightLevelToTermoSections.get(heightLevel).add(termoSectionDtoMapper.mapEntityToDto(section));
         }
-        return listsOfTermosections;
+
+        List<List<TermoSectionDto>> listOfTermoSections = new LinkedList<>();
+        for (Map.Entry<Integer, List<TermoSectionDto>> entry : heightLevelToTermoSections.entrySet()) {
+            listOfTermoSections.add(entry.getValue());
+        }
+
+        return listOfTermoSections;
     }
+
 }
