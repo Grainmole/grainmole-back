@@ -10,7 +10,7 @@ import ua.grainmole.models.Storage;
 public class StorageDtoMapper implements BasicEntityMapper<Storage, StorageDto> {
 
     @Override
-    public StorageDto mapToDto(Storage storage) {
+    public StorageDto mapEntityToDto(Storage storage) {
         return StorageDto.builder()
                 .storageId(storage.getId())
                 .name(storage.getName())

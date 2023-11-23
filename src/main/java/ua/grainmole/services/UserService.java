@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import ua.grainmole.exceptions.CurrentAuditException;
 import ua.grainmole.models.User;
 import ua.grainmole.repositories.UserRepository;
-import ua.grainmole.responses.UserInfo;
+import ua.grainmole.responses.UserInfoResponse;
+import ua.grainmole.services.ApplicationAuditAware;
 
 import java.util.Optional;
 
@@ -15,11 +16,11 @@ public class UserService {
     private final ApplicationAuditAware auditAware;
     private final UserRepository userRepository;
 
-    public UserInfo getInfoAboutUser() {
+    public UserInfoResponse getInfoAboutUser() {
         Optional<Integer> auditor = auditAware.getCurrentAuditor();
         if (auditor.isPresent()) {
             User currentUser = userRepository.getReferenceById(auditor.get());
-            return UserInfo.builder()
+            return UserInfoResponse.builder()
                     .firstName(currentUser.getFirstname())
                     .lastName(currentUser.getLastname())
                     .email(currentUser.getEmail())
