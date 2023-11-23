@@ -61,8 +61,8 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
-          container-name: grainmole-container
+          task-definition: grainmole-task-backend
+          container-name: backend
           image: ${{ steps.build-image.outputs.image }}
 
 
