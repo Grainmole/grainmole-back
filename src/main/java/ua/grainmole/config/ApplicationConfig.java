@@ -36,7 +36,7 @@ public class ApplicationConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://grainmole.com:4200"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
