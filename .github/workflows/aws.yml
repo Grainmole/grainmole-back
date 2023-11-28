@@ -56,6 +56,14 @@ jobs:
           echo "Task Definition Name: grainmole-task-backend"
           aws ecs describe-task-definition --task-definition grainmole-task-backend --query taskDefinition > grainmole-task-backend.json
 
+      - name: Stop the current ECS tasks
+        run: |
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --desired-count 0
+
+      - name: Wait for the tasks to stop
+        run: |
+          # Add a wait here to ensure the old tasks have stopped
+          sleep 30
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -64,7 +72,6 @@ jobs:
           task-definition: grainmole-task-backend.json
           container-name: backend
           image: ${{ steps.build-image.outputs.image }}
-
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
