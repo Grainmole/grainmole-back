@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -30,7 +31,7 @@ public class TermoSection {
     @Column(name = "temperature" , nullable = false)
     private Float temperature;
     @Column(name = "time" , nullable = false)
-    private Timestamp time;
+    private LocalDateTime time;
     @ManyToOne
     @JoinColumn(name = "grain_section_id")
     private GrainSection grainSection;

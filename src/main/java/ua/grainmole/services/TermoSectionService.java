@@ -13,6 +13,7 @@ import ua.grainmole.repositories.TermoSectionRepository;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class TermoSectionService {
 
     public List<List<TermoSectionDto>> getAllTermoSectionsByGrainSection(
             BigInteger grainSectionId,
-            Timestamp timestamp) {
+            LocalDateTime timestamp) {
         User currentUser = auditAware.returnCurrentAuthenticatedUser();
         GrainSection grainSection = grainSectionRepository.getReferenceById(grainSectionId);
         if (!grainSection.getStorage().getUser().equals(currentUser)) {
