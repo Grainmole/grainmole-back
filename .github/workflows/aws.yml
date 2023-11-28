@@ -43,13 +43,14 @@ jobs:
       - name: Stop the current ECS tasks
         run: |
           aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --desired-count 0
-          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --desired-count 1
 
       - name: Wait for the tasks to stop
         run: |
           # Add a wait here to ensure the old tasks have stopped
           sleep 30
-
+      - name : Run ECS task
+        run : |
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --desired-count 1
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
