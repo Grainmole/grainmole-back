@@ -20,6 +20,7 @@ import ua.grainmole.services.TermoSectionService;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin
@@ -52,7 +53,7 @@ public class GrainSectionController {
     @GetMapping("/{grainSectionId}/termo-sections")
     public ResponseEntity<List<List<TermoSectionDto>>> getDataForGraphic(
             @PathVariable BigInteger grainSectionId,
-            @RequestParam Timestamp timestamp) {
+            @RequestParam LocalDateTime timestamp) {
         return ResponseEntity.ok(termoSectionService.getAllTermoSectionsByGrainSection(grainSectionId,timestamp));
     }
 }
