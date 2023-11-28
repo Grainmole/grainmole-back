@@ -1,6 +1,7 @@
 package ua.grainmole.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,10 @@ import ua.grainmole.services.TermoSectionService;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @CrossOrigin
@@ -52,7 +57,9 @@ public class GrainSectionController {
     @GetMapping("/{grainSectionId}/termo-sections")
     public ResponseEntity<List<List<TermoSectionDto>>> getDataForGraphic(
             @PathVariable BigInteger grainSectionId,
-            @RequestParam Timestamp timestamp) {
-        return ResponseEntity.ok(termoSectionService.getAllTermoSectionsByGrainSection(grainSectionId,timestamp));
+            @RequestParam String timestamp) {
+        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime date = dateTimeFormat.parse(timestamp, LocalDateTime::from);
+        return ResponseEntity.ok(termoSectionService.getAllTermoSectionsByGrainSection(grainSectionId,date));
     }
 }

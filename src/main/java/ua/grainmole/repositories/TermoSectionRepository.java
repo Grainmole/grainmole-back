@@ -8,6 +8,7 @@ import ua.grainmole.models.GrainSection;
 import ua.grainmole.models.TermoSection;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -15,6 +16,6 @@ public interface TermoSectionRepository extends JpaRepository<TermoSection, Inte
 
     @Query("SELECT t FROM TermoSection t WHERE t.grainSection = :grainSection AND t.time <= :timestamp")
     List<TermoSection> getTermoSectionByTimestampAAndGrainSection(
-            @Param("timestamp") Timestamp timestamp,
+            @Param("timestamp") LocalDateTime timestamp,
             @Param("grainSection") GrainSection grainSection);
 }
